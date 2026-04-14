@@ -1,1 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestForge Dashboard</title>
+  <style>
+    :root {
+      --bg:      #0d1117;
+      --bg2:     #161b22;
+      --bg3:     #21262d;
+      --border:  #30363d;
+      --text:    #e6edf3;
+      --muted:   #8b949e;
+      --green:   #3fb950;
+      --red:     #f85149;
+      --amber:   #d29922;
+      --blue:    #58a6ff;
+      --purple:  #a371f7;
+      --teal:    #39d353;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── header ─────────────────────────────────────────── */
+    header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 28px; height: 28px;
+      background: var(--blue);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
+
+    .header-right {
+      display: flex; align-items: center; gap: 16px;
+      color: var(--muted); font-size: 12px;
+    }
+
+    /* ── main layout ─────────────────────────────────────── */
+    main { padding: 28px 32px; max-width: 1200px; margin: 0 auto; }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* ── metric cards ────────────────────────────────────── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .metric-value.green  { color: var(--green); }
+    .metric-value.red    { color: var(--red);   }
+    .metric-value.blue   { color: var(--blue);  }
+    .metric-value.amber  { color: var(--amber); }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── two-column grid ─────────────────────────────────── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── panel ───────────────────────────────────────────── */
+    .panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-body { padding: 18px; }
+
+    /* ── language results ────────────────────────────────── */
+    .lang-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lang-row:last-child { border-bottom: none; }
+
+    .lang-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .badge-py     { background: #2d4a2d; color: var(--green); }
+    .badge-java   { background: #3a2c1a; color: var(--amber); }
+    .badge-js     { background: #2a2d3a; color: var(--blue);  }
+
+    .lang-tool    { color: var(--muted); font-size: 12px; flex: 1; }
+    .lang-dur     { color: var(--muted); font-size: 12px; min-width: 48px; text-align: right; }
+
+    .pass-badge {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+      min-width: 56px; text-align: center;
+    }
+
+    .pass-badge.pass { background: #1a3a1a; color: var(--green); }
+    .pass-badge.fail { background: #3a1a1a; color: var(--red);   }
+
+    /* ── bar chart ───────────────────────────────────────── */
+    .bar-chart { display: flex; flex-direction: column; gap: 14px; }
+
+    .bar-row { display: flex; align-items: center; gap: 10px; }
+
+    .bar-label { min-width: 70px; font-size: 12px; color: var(--muted); }
+
+    .bar-track {
+      flex: 1; height: 8px;
+      background: var(--bg3);
+      border-radius: 4px; overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%; border-radius: 4px;
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+
+    .bar-fill.green  { background: var(--green); }
+    .bar-fill.blue   { background: var(--blue);  }
+    .bar-fill.amber  { background: var(--amber); }
+
+    .bar-val { min-width: 36px; text-align: right; font-size: 12px; color: var(--muted); }
+
+    /* ── run log ─────────────────────────────────────────── */
+    .run-log { font-family: monospace; font-size: 12px; line-height: 1.8; }
+    .log-line { color: var(--muted); }
+    .log-line .pass-mark { color: var(--green); }
+    .log-line .fail-mark { color: var(--red);   }
+
+    /* ── footer ──────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+    }
+
+    .refresh-btn {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--blue);
+      border-radius: 6px;
+      padding: 5px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .refresh-btn:hover { background: var(--bg2); }
+
+    #last-updated { font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    TestForge
+  </div>
+  <div class="header-right">
+    <div class="status-dot"></div>
+    <span>live</span>
+    <span id="last-updated">—</span>
+    <button class="refresh-btn" onclick="loadData()">↺ Refresh</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Metrics -->
+  <div class="section-title">Run summary</div>
+  <div class="metrics">
+    <div class="metric-card">
+      <div class="metric-label">Suites run</div>
+      <div class="metric-value blue" id="m-total">—</div>
+      <div class="metric-sub">languages</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Passed</div>
+      <div class="metric-value green" id="m-passed">—</div>
+      <div class="metric-sub" id="m-rate">—</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Failed</div>
+      <div class="metric-value red" id="m-failed">—</div>
+      <div class="metric-sub">suites</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Duration</div>
+      <div class="metric-value amber" id="m-duration">—</div>
+      <div class="metric-sub">seconds total</div>
+    </div>
+  </div>
+
+  <!-- Language results + bar chart -->
+  <div class="grid-2">
+
+    <div class="panel">
+      <div class="panel-header">Language results</div>
+      <div class="panel-body">
+        <div id="lang-results">Loading…</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">Duration by module</div>
+      <div class="panel-body">
+        <div class="bar-chart" id="bar-chart">Loading…</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Run log -->
+  <div class="panel" style="margin-bottom: 28px;">
+    <div class="panel-header">
+      Run log
+      <span id="run-id" style="font-size:11px;color:var(--muted);font-weight:400;">—</span>
+    </div>
+    <div class="panel-body">
+      <div class="run-log" id="run-log">Loading…</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  TestForge — polyglot test automation framework &nbsp;·&nbsp;
+  Python · Java · JavaScript · Bash · YAML
+</footer>
+
+<script>
+  const API = "http://localhost:3000/api";
+
+  function fmt(v) { return v === undefined ? "—" : v; }
+
+  function badge(lang) {
+    const map = { Python: "badge-py", Java: "badge-java", JavaScript: "badge-js" };
+    const cls = map[lang] || "badge-py";
+    return `<span class="lang-badge ${cls}">${lang}</span>`;
+  }
+
+  function renderMetrics(s) {
+    document.getElementById("m-total").textContent    = fmt(s.total);
+    document.getElementById("m-passed").textContent   = fmt(s.passed);
+    document.getElementById("m-failed").textContent   = fmt(s.failed);
+    document.getElementById("m-duration").textContent = fmt(s.duration_seconds) + "s";
+    document.getElementById("m-rate").textContent     = fmt(s.success_rate) + "% success";
+  }
+
+  function renderLangResults(results) {
+    const el = document.getElementById("lang-results");
+    el.innerHTML = results.map(r => `
+      <div class="lang-row">
+        ${badge(r.language)}
+        <span class="lang-tool">${r.tool}</span>
+        <span class="lang-dur">${r.duration}s</span>
+        <span class="pass-badge ${r.passed ? 'pass' : 'fail'}">
+          ${r.passed ? '✔ pass' : '✘ fail'}
+        </span>
+      </div>
+    `).join("");
+  }
+
+  function renderBars(results) {
+    const colors = { Python: "green", JavaScript: "blue", Java: "amber" };
+    const maxDur = Math.max(...results.map(r => r.duration));
+    const el = document.getElementById("bar-chart");
+    el.innerHTML = results.map(r => {
+      const pct = maxDur ? Math.round((r.duration / maxDur) * 100) : 0;
+      const color = colors[r.language] || "blue";
+      return `
+        <div class="bar-row">
+          <span class="bar-label">${r.language}</span>
+          <div class="bar-track">
+            <div class="bar-fill ${color}" style="width:${pct}%"></div>
+          </div>
+          <span class="bar-val">${r.duration}s</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderLog(results, runId) {
+    document.getElementById("run-id").textContent = "run " + runId;
+    const lines = results.map(r => {
+      const mark = r.passed
+        ? `<span class="pass-mark">✔</span>`
+        : `<span class="fail-mark">✘</span>`;
+      return `<div class="log-line">${mark} [${r.language}] ${r.tool} — ${r.duration}s</div>`;
+    });
+    document.getElementById("run-log").innerHTML = lines.join("");
+  }
+
+  async function loadData() {
+    try {
+      const res  = await fetch(`${API}/results/latest`);
+      const data = await res.json();
+      renderMetrics(data.summary);
+      renderLangResults(data.results);
+      renderBars(data.results);
+      renderLog(data.results, data.run_id);
+      const ts = new Date(data.timestamp);
+      document.getElementById("last-updated").textContent =
+        "updated " + ts.toLocaleTimeString();
+    } catch (e) {
+      // Fallback demo data when API is not running
+      const demo = {
+        run_id: "demo",
+        timestamp: new Date().toISOString(),
+        summary: { total: 3, passed: 3, failed: 0, duration_seconds: 4.8, success_rate: 100 },
+        results: [
+          { language: "Python",     tool: "pytest",   passed: true, duration: 1.4 },
+          { language: "Java",       tool: "JUnit 5",  passed: true, duration: 2.2 },
+          { language: "JavaScript", tool: "Jest",     passed: true, duration: 1.2 },
+        ],
+      };
+      renderMetrics(demo.summary);
+      renderLangResults(demo.results);
+      renderBars(demo.results);
+      renderLog(demo.results, demo.run_id);
+      document.getElementById("last-updated").textContent = "demo mode";
+    }
+  }
+
+  loadData();
+  setInterval(loadData, 30000); // auto-refresh every 30s
+</script>
+</body>
+</html>
 

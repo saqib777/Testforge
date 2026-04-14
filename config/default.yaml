@@ -1,1 +1,42 @@
+# TestForge — default test suite
+# Edit this to configure which modules run and environment settings.
+
+name: default
+description: Full polyglot test run — all language modules
+
+environment:
+  NODE_ENV: test
+  PYTHONPATH: .
+  JAVA_OPTS: "-Xmx512m"
+
+modules:
+  python:
+    enabled: true
+    tool: pytest
+    paths:
+      - tests/sample/
+    args:
+      - "--tb=short"
+      - "-v"
+    timeout: 120
+
+  java:
+    enabled: true
+    tool: maven
+    goals:
+      - test
+    timeout: 180
+
+  node:
+    enabled: true
+    tool: jest
+    working_dir: node-api
+    timeout: 90
+
+reporting:
+  output_dir: reports/
+  formats:
+    - json
+    - html
+  keep_last: 20
 

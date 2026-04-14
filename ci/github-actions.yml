@@ -1,1 +1,96 @@
+name: TestForge CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Python tests ─────────────────────────────────────────
+  python-tests:
+    name: Python / pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pytest pytest-json-report pyyaml
+      - name: Run tests
+        run: python -m pytest tests/ -v --tb=short --json-report --json-report-file=reports/pytest.json
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: reports/pytest.json
+
+  # ── Java tests ───────────────────────────────────────────
+  java-tests:
+    name: Java / JUnit 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: temurin
+      - name: Run tests
+        run: mvn test -q
+        working-directory: java-module
+      - name: Upload Surefire reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: java-module/target/surefire-reports/
+
+  # ── Node.js tests ────────────────────────────────────────
+  node-tests:
+    name: Node.js / Jest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: node-api/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: node-api
+      - name: Run tests
+        run: npm test
+        working-directory: node-api
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest-coverage
+          path: node-api/coverage/
+
+  # ── Aggregate report ─────────────────────────────────────
+  report:
+    name: Aggregate report
+    runs-on: ubuntu-latest
+    needs: [python-tests, java-tests, node-tests]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: reports/
+      - name: Install orchestrator deps
+        run: pip install pyyaml
+      - name: Generate summary
+        run: python orchestrator/runner.py --python
+        continue-on-error: true
+      - name: Upload final report
+        uses: actions/upload-artifact@v4
+        with:
+          name: testforge-report
+          path: reports/
 

@@ -1,4 +1,4 @@
-# TestForge — default test suite
+# TestForge — default test suite for config
 # Edit this to configure which modules run and environment settings.
 
 name: default

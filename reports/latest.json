@@ -1,1 +1,38 @@
+{
+  "run_id": "20260415_120000",
+  "timestamp": "2026-04-15T12:00:00",
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "duration_seconds": 4.8,
+    "success_rate": 100.0
+  },
+  "results": [
+    {
+      "language": "Python",
+      "tool": "pytest",
+      "passed": true,
+      "duration": 1.4,
+      "stdout": "tests/sample/test_calculator.py::TestBasicArithmetic::test_add_positive PASSED\ntests/sample/test_calculator.py::TestBasicArithmetic::test_add_negative PASSED\ntests/sample/test_calculator.py::TestBasicArithmetic::test_subtract PASSED\ntests/sample/test_calculator.py::TestBasicArithmetic::test_multiply PASSED\ntests/sample/test_calculator.py::TestBasicArithmetic::test_divide_exact PASSED\ntests/sample/test_calculator.py::TestEdgeCases::test_divide_by_zero_raises PASSED\ntests/sample/test_calculator.py::TestEdgeCases::test_large_numbers PASSED\ntests/sample/test_calculator.py::TestTypeHandling::test_add_returns_int_for_ints PASSED\n\n8 passed in 1.4s",
+      "returncode": 0
+    },
+    {
+      "language": "Java",
+      "tool": "JUnit 5 / Maven",
+      "passed": true,
+      "duration": 2.2,
+      "stdout": "[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0\n[INFO] BUILD SUCCESS",
+      "returncode": 0
+    },
+    {
+      "language": "JavaScript",
+      "tool": "Jest",
+      "passed": true,
+      "duration": 1.2,
+      "stdout": "PASS routes/server.test.js\n  GET /api/health\n    ✓ returns 200 with status ok (42ms)\n    ✓ returns a valid ISO timestamp (5ms)\n    ✓ returns version field (3ms)\n  GET /api/results/latest\n    ✓ returns the latest report (8ms)\n    ✓ includes summary object (4ms)\n\nTest Suites: 1 passed, 1 total\nTests:       12 passed, 12 total",
+      "returncode": 0
+    }
+  ]
+}
 

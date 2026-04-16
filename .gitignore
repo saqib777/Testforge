@@ -1,1 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+*.egg-info/
+
+# Java
+target/
+*.class
+*.jar
+.mvn/
+
+# Node.js
+node_modules/
+coverage/
+*.log
+npm-debug.log*
+
+# Reports (generated)
+reports/*.json
+reports/*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Env
+.env
+.env.local
 

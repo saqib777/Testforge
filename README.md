@@ -13,7 +13,7 @@
 
 ---
 
-## 🧠 What Is This Project?
+##  What Is This Project?
 
 TestForge is a **multi-language test automation framework** that coordinates test suites written in Python, Java, and JavaScript — running them all from a single command, collecting their results, and displaying them on a live web dashboard.
 
@@ -23,7 +23,7 @@ The project is structured the way a real company's CI/CD pipeline works: differe
 
 ---
 
-## ❓ What Problem Does It Solve?
+##  What Problem Does It Solve?
 
 ### The single-language trap
 
@@ -43,7 +43,7 @@ When tests fail in a terminal, the information dies there. TestForge persists re
 
 ---
 
-## 🔄 How It Works — The Full Flow
+##  How It Works — The Full Flow
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -126,7 +126,7 @@ When tests fail in a terminal, the information dies there. TestForge persists re
 
 ---
 
-## 🧪 Software Testing Concepts Demonstrated
+## Software Testing Concepts Demonstrated
 
 ### Unit testing
 Testing individual functions or classes in complete isolation, with no external dependencies. The `Calculator` and `BankAccount` Python classes, `StringUtils` and `TaskManager` Java classes are all tested this way — no database, no network, no file system.
@@ -157,7 +157,7 @@ Running tests automatically on every code push using GitHub Actions. The `ci/git
 
 ---
 
-## 🗂 Project Structure
+##  Project Structure
 
 ```
 testforge/
@@ -194,7 +194,7 @@ testforge/
 
 ---
 
-## 🛠 Languages & What Each One Does
+##  Languages & What Each One Does
 
 | Language | File(s) | Role | Why this language |
 |----------|---------|------|-------------------|
@@ -207,7 +207,7 @@ testforge/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -257,7 +257,7 @@ Then open `http://localhost:3000` in your browser.
 
 ---
 
-## 🧩 Running Individual Modules
+##  Running Individual Modules
 
 ```bash
 # Python unit tests only (no server needed)
@@ -281,7 +281,7 @@ python orchestrator/runner.py --node
 
 ---
 
-## 🌐 REST API Reference
+##  REST API Reference
 
 | Method | Endpoint | Response |
 |--------|----------|----------|
@@ -293,7 +293,7 @@ python orchestrator/runner.py --node
 
 ---
 
-## 🔜 Next Steps
+##  Next Steps
 
 - [ ] Add `--watch` mode to the orchestrator — re-run tests automatically when files change
 - [ ] Add coverage reports — `pytest-cov` for Python, JaCoCo for Java, Istanbul for JavaScript
@@ -304,17 +304,17 @@ python orchestrator/runner.py --node
 
 ---
 
-## 👤 Author
+##  Author
 
 **Mohammed Saqib** ([@saqib777](https://github.com/saqib777))
 
 - 405 contributions in 2026
-- 🔥 23-day current streak
+- 23-day current streak
 - 72-day longest streak
 - 37 public repos
 
 ---
 
-## 📄 License
+## License
 
 MIT
